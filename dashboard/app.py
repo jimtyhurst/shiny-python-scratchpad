@@ -9,7 +9,8 @@ file_path = Path(__file__).parent / "penguins.csv"
 df = pd.read_csv(file_path)
 
 ui.h1("My Penguin Dashboard")
-ui.input_slider(id='mass', label='Maximum body mass (grams) to display', min=2000, max=8000, value=6000)
+with ui.sidebar(bg="#f8f8f8"):
+    ui.input_slider(id='mass', label='Maximum body mass (grams) to display', min=2000, max=8000, value=6000)
 
 @render_plotly
 def plot():
