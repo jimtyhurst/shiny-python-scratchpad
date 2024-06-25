@@ -8,7 +8,7 @@ file_path = Path(__file__).parent / "penguins.csv"
 
 df = pd.read_csv(file_path)
 
-ui.h1("My Penguin Dashboard")
+ui.h1("Penguin Dashboard")
 with ui.sidebar(bg="#f8f8f8"):
     ui.input_slider(id='mass', label='Maximum body mass (grams) to display', min=2000, max=8000, value=6000)
 
@@ -18,7 +18,7 @@ with ui.layout_columns():
 
         @render_plotly
         def plot():
-            df_subset = df[df['body_mass_g'] < input.mass()]
+            df_subset = subset_by_upper_bound(df, 'body_mass_g', input.mass())
             if input.show_species():
                 return px.scatter(df_subset, x='bill_depth_mm', y='bill_length_mm', color='species')
             else:
@@ -31,4 +31,7 @@ with ui.layout_columns():
 
         @render.data_frame
         def data():
-            return df[df['body_mass_g'] < input.mass()]
+            return subset_by_upper_bound(df, 'body_mass_g', input.mass())
+
+def subset_by_upper_bound(df: pd.DataFrame, column_name: str, max_value):
+    return df[df[column_name] < max_value]
