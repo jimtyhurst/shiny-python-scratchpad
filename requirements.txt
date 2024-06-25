@@ -1,0 +1,8 @@
+shiny 
+shinylive 
+shinywidgets
+pandas
+plotly
+plotnine
+seaborn
+jupyter
