@@ -12,18 +12,22 @@ ui.h1("My Penguin Dashboard")
 with ui.sidebar(bg="#f8f8f8"):
     ui.input_slider(id='mass', label='Maximum body mass (grams) to display', min=2000, max=8000, value=6000)
 
-@render_plotly
-def plot():
-    df_subset = df[df['body_mass_g'] < input.mass()]
-    return px.scatter(
-        df_subset, 
-        x='bill_depth_mm', 
-        y='bill_length_mm',
-        color='species',
-    )
+with ui.card():
+    'Bill dimensions by species'
+    
+    @render_plotly
+    def plot():
+        df_subset = df[df['body_mass_g'] < input.mass()]
+        return px.scatter(
+            df_subset, 
+            x='bill_depth_mm', 
+            y='bill_length_mm',
+            color='species',
+        )
 
-ui.h2("Penguin Dataset")
+with ui.card():
+    'Raw Data'
 
-@render.data_frame
-def data():
-    return df[df['body_mass_g'] < input.mass()]
+    @render.data_frame
+    def data():
+        return df[df['body_mass_g'] < input.mass()]
